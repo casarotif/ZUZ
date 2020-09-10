@@ -1,46 +1,54 @@
 package com.zeroum.zuz.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "TB_ENDERECO")
 public class Endereco {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id_endereco;
+	private long id;
 	
 	@NotNull
-	@Size(min = 8 , max = 8)
+	@Size(min = 8, max = 8)
 	private int cep;
 	
 	@NotNull
-	@Size(min = 5, max = 20)
+	@Size(max = 20)
 	private String bairro;
 	
 	@NotNull
-	@Size(min = 5, max = 30)
+	@Size(max = 50)
 	private String rua;
 	
 	@NotNull
-	@Size(min = 1)
+	@Size(max = 10)
 	private int numero;
 	
-	@Size(max = 300)
+	@Size(max = 50)
 	private String complemento;
+	
+	@OneToOne(cascade = CascadeType.MERGE)
+	@JsonIgnoreProperties("endereco")
+	private Usuario usuario;
 
-	public int getId_endereco() {
-		return id_endereco;
+	public long getId() {
+		return id;
 	}
 
-	public void setId_endereco(int id_endereco) {
-		this.id_endereco = id_endereco;
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public int getCep() {
@@ -82,8 +90,14 @@ public class Endereco {
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
-	
-	
-	
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
 }
